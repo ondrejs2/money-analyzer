@@ -39,7 +39,8 @@ class App extends Component {
         return (
             <div id = "drop-area" ref = { this._dropArea }>
                 <form className = "my-form">
-                    <p>Upload .csv file with the file dialog or by dragging and dropping .csv file onto the dashed region</p>
+                    <p>Upload .csv file with the file dialog or by dragging and dropping .csv file onto the dashed region
+                    </p>
                     <input type = "file" id = "fileElem" accept = "*" onChange= { (e) => this.handleFiles(e.target.files) }/>
                     <label className = "button" htmlFor= "fileElem">Select .csv file</label>
                 </form>
@@ -68,8 +69,6 @@ class App extends Component {
     }
 
     handleFiles(files) {
-        console.log(files);
-
         files = [...files];
         files.forEach((file) => this.getAsText(file));
     }
@@ -86,8 +85,6 @@ class App extends Component {
     loadHandler(event) {
         const csv = event.target.result;
         this.parseCSV(csv);
-
-        console.log(csv);
     }
 
     parseCSV(csv) {
@@ -97,7 +94,6 @@ class App extends Component {
 
         for (let i = 1; i < allRows.length; i++) {
             const rowData = allRows[i].split(CSV_DELIMITER);
-            console.log(rowData);
             let row = {};
 
             for (let j = 0; j < rowData.length; j++) {
@@ -107,30 +103,20 @@ class App extends Component {
             rows.push(row);
         }
 
-        console.log(columnNames);
         console.log(rows);
     }
 
     parseData(data) {
         if (data) {
-            console.log(data);
-
             const unquotedString = data.substring(1, data.length - 1);
 
             if (this.isNumeric(unquotedString)) {
-                console.log('vracím number:');
-                console.log(parseFloat(unquotedString));
-
                 return parseFloat(unquotedString);
             } else {
-                console.log('vracím string:');
-                console.log(unquotedString);
-
                 return unquotedString;
             }
         }
 
-        console.log('vracím null');
         return null;
     }
 
