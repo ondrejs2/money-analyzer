@@ -3,6 +3,15 @@ import './App.css';
 
 const CSV_DELIMITER = ';';
 const CSV_ENCODING = 'utf-8';
+const DECIMAL_POINT_CHAR = ',';
+
+const $MONA = Object.freeze({
+    CSV_DELIMITER,
+    CSV_ENCODING,
+    DECIMAL_POINT_CHAR
+});
+window.$MONA = $MONA;
+
 
 class App extends Component {
 
@@ -104,6 +113,7 @@ class App extends Component {
         }
 
         console.log(rows);
+        console.log($MONA);
     }
 
     parseData(data) {
