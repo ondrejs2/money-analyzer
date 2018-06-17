@@ -118,12 +118,18 @@ class App extends Component {
 
     parseData(data) {
         if (data) {
-            const unquotedString = data.substring(1, data.length - 1);
+            let unquotedData = data.substring(1, data.length - 1);
 
-            if (this.isNumeric(unquotedString)) {
-                return parseFloat(unquotedString);
+            if (DECIMAL_POINT_CHAR === ',') {
+                if (unquotedData.match(/\d+[,]\d+/)) {
+                    unquotedData = unquotedData.replace(',', '.');
+                }
+            }
+
+            if (this.isNumeric(unquotedData)) {
+                return parseFloat(unquotedData);
             } else {
-                return unquotedString;
+                return unquotedData;
             }
         }
 
