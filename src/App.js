@@ -128,6 +128,8 @@ class App extends Component {
 
             if (this.isNumeric(unquotedData)) {
                 return parseFloat(unquotedData);
+            } else if (this.isDate(unquotedData)) {
+                return this.parseDate(unquotedData);
             } else {
                 return unquotedData;
             }
@@ -138,6 +140,14 @@ class App extends Component {
 
     isNumeric(value) {
         return !isNaN(parseFloat(value)) && isFinite(value);
+    }
+
+    isDate(value) {
+        return value.match(/^\d+[/]\d+[/]\d+/);
+    }
+
+    parseDate(value) {
+        return new Date(value.replace(/^(\d+)[/](\d+)[/](\d+).+/, '$3-$2-$1'));
     }
 
     errorHandler(evt) {
