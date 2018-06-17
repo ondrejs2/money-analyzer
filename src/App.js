@@ -97,7 +97,7 @@ class App extends Component {
     }
 
     parseCSV(csv) {
-        const allRows = csv.split(/\r\n|\n/);
+        const allRows = csv.split(/\r\n|\r|\n/);
         const columnNames = allRows[0].split(CSV_DELIMITER);
         let rows = [];
 
@@ -121,7 +121,7 @@ class App extends Component {
             let unquotedData = data.substring(1, data.length - 1);
 
             if (DECIMAL_POINT_CHAR === ',') {
-                if (unquotedData.match(/\d+[,]\d+/)) {
+                if (unquotedData.match(/\d+[,]\d+$/)) {
                     unquotedData = unquotedData.replace(',', '.');
                 }
             }
