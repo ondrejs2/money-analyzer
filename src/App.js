@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import './App.css';
 
-const CSV_DELIMITER = ';';
 const CSV_ENCODING = 'utf-8';
-const DECIMAL_POINT_CHAR = ',';
+const CSV_DELIMITER = ';';
+const CSV_DECIMAL_POINT_CHAR = ',';
+const CSV_COLUMN_MAPPING = Object.freeze({
+    amount: 'Částka v měně účtu',
+    date: 'Datum provedení'
+});
+
+let reversedColumns = {};
+Object.keys(CSV_COLUMN_MAPPING).forEach(key => {
+    reversedColumns[CSV_COLUMN_MAPPING[key]] = key;
+});
+const CSV_REVERSE_COLUMN_MAPPING = Object.freeze(reversedColumns);
 
 const $MONA = Object.freeze({
-    CSV_DELIMITER,
     CSV_ENCODING,
-    DECIMAL_POINT_CHAR
+    CSV_DELIMITER,
+    CSV_DECIMAL_POINT_CHAR,
+    CSV_COLUMN_MAPPING,
+    CSV_REVERSE_COLUMN_MAPPING
 });
 window.$MONA = $MONA;
 
@@ -106,7 +118,12 @@ class App extends Component {
             let row = {};
 
             for (let j = 0; j < rowData.length; j++) {
-                row[columnNames[j]] = this.parseData(rowData[j]);
+                const unquotedColumnName = this.unquoteValue(columnNames[j]);
+                const mappedColumnName = CSV_REVERSE_COLUMN_MAPPING[unquotedColumnName];
+
+                if (mappedColumnName) {
+                    row[mappedColumnName] = this.parseData(rowData[j]);
+                }
             }
 
             rows.push(row);
@@ -118,9 +135,9 @@ class App extends Component {
 
     parseData(data) {
         if (data) {
-            let unquotedData = data.substring(1, data.length - 1);
+            let unquotedData = this.unquoteValue(data);
 
-            if (DECIMAL_POINT_CHAR === ',') {
+            if (CSV_DECIMAL_POINT_CHAR === ',') {
                 if (unquotedData.match(/\d+[,]\d+$/)) {
                     unquotedData = unquotedData.replace(',', '.');
                 }
@@ -148,6 +165,10 @@ class App extends Component {
 
     parseDate(value) {
         return new Date(value.replace(/^(\d+)[/](\d+)[/](\d+).+/, '$3-$2-$1'));
+    }
+
+    unquoteValue(value) {
+        return value.substring(1, value.length - 1);
     }
 
     errorHandler(evt) {
