@@ -6,21 +6,26 @@ const CSV_DELIMITER = ';';
 const CSV_DECIMAL_POINT_CHAR = ',';
 const CSV_COLUMN_MAPPING = Object.freeze({
     amount: 'Částka v měně účtu',
-    date: 'Datum provedení'
+    date: 'Datum provedení',
+    counterpartyAccountNumber: 'Číslo účtu protistrany'
+
 });
 
 let reversedColumns = {};
 Object.keys(CSV_COLUMN_MAPPING).forEach(key => {
     reversedColumns[CSV_COLUMN_MAPPING[key]] = key;
 });
-const CSV_REVERSE_COLUMN_MAPPING = Object.freeze(reversedColumns);
+const CSV_REVERSED_COLUMN_MAPPING = Object.freeze(reversedColumns);
+
+const BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS = ['1195516035/3030', '1195516027/3030'];
 
 const $MONA = Object.freeze({
     CSV_ENCODING,
     CSV_DELIMITER,
     CSV_DECIMAL_POINT_CHAR,
     CSV_COLUMN_MAPPING,
-    CSV_REVERSE_COLUMN_MAPPING
+    CSV_REVERSED_COLUMN_MAPPING,
+    BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS
 });
 window.$MONA = $MONA;
 
@@ -119,7 +124,7 @@ class App extends Component {
 
             for (let j = 0; j < rowData.length; j++) {
                 const unquotedColumnName = this.unquoteValue(columnNames[j]);
-                const mappedColumnName = CSV_REVERSE_COLUMN_MAPPING[unquotedColumnName];
+                const mappedColumnName = CSV_REVERSED_COLUMN_MAPPING[unquotedColumnName];
 
                 if (mappedColumnName) {
                     row[mappedColumnName] = this.parseData(rowData[j]);
