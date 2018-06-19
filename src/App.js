@@ -136,6 +136,8 @@ class App extends Component {
 
         console.log(rows);
         console.log($MONA);
+
+        this.countBalance(rows);
     }
 
     parseData(data) {
@@ -158,6 +160,30 @@ class App extends Component {
         }
 
         return null;
+    }
+
+    countBalance(rows) {
+        const existAnyBlacklistedAccountNumber = BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS.length;
+
+        const balance = rows.reduce((balanceAccumulator, transaction) => {
+            if (transaction.amount) {
+                if (existAnyBlacklistedAccountNumber && transaction.counterpartyAccountNumber) {
+                    return !this.transactionIsWithBlacklistedAccountNumber(transaction.counterpartyAccountNumber) ?
+                        balanceAccumulator + transaction.amount :
+                        balanceAccumulator;
+                } else {
+                    return balanceAccumulator + transaction.amount;
+                }
+            } else {
+                return balanceAccumulator;
+            }
+        }, 0);
+
+        console.log('balance: ' + balance);
+    }
+
+    transactionIsWithBlacklistedAccountNumber(accountNumber) {
+        return BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS.includes(accountNumber);
     }
 
     isNumeric(value) {
