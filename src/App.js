@@ -76,9 +76,7 @@ class App extends Component {
                 >
                     <form className = "my-form">
                         <p>
-                            Upload .csv file with the file dialog or by dragging and dropping .csv file onto the
-                            dashed
-                            region
+                            Upload .csv file with the file dialog or by dragging and dropping .csv file onto the dashed region
                         </p>
                         <input
                             accept = "*"
@@ -94,7 +92,10 @@ class App extends Component {
                         </label>
                     </form>
                 </div>
-                <IncomesAndExpenditures transactions = { this.state.transactions }/>
+                { this.state.transactions && this.state.transactions.length ?
+                    <IncomesAndExpenditures transactions = { this.state.transactions }/> :
+                    null
+                }
             </AppContext.Provider>
         );
     }
