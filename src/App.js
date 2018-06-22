@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
+import IncomesAndExpenditures from './components/IncomesAndExpenditures/IncomesAndExpenditures';
 
 const CSV_ENCODING = 'utf-8';
 const CSV_DELIMITER = ';';
 const CSV_DECIMAL_POINT_CHAR = ',';
 const CSV_COLUMN_MAPPING = Object.freeze({
     amount: 'Částka v měně účtu',
-    date: 'Datum provedení',
-    counterpartyAccountNumber: 'Číslo účtu protistrany'
-
+    counterpartyAccountNumber: 'Číslo účtu protistrany',
+    date: 'Datum provedení'
 });
 
 let reversedColumns = {};
@@ -29,6 +29,7 @@ const $MONA = Object.freeze({
 });
 window.$MONA = $MONA;
 
+export const AppContext = React.createContext();
 
 class App extends Component {
 
@@ -36,6 +37,11 @@ class App extends Component {
         super(props);
 
         this._dropArea = React.createRef();
+
+        this.state = {
+            $MONA: $MONA,
+            transactions: []
+        };
     }
 
     componentDidMount() {
@@ -63,14 +69,33 @@ class App extends Component {
 
     render() {
         return (
-            <div id = "drop-area" ref = { this._dropArea }>
-                <form className = "my-form">
-                    <p>Upload .csv file with the file dialog or by dragging and dropping .csv file onto the dashed region
-                    </p>
-                    <input type = "file" id = "fileElem" accept = "*" onChange= { (e) => this.handleFiles(e.target.files) }/>
-                    <label className = "button" htmlFor= "fileElem">Select .csv file</label>
-                </form>
-            </div>
+            <AppContext.Provider value = { this.state.$MONA }>
+                <div
+                    id = "drop-area"
+                    ref = { this._dropArea }
+                >
+                    <form className = "my-form">
+                        <p>
+                            Upload .csv file with the file dialog or by dragging and dropping .csv file onto the
+                            dashed
+                            region
+                        </p>
+                        <input
+                            accept = "*"
+                            id = "fileElem"
+                            onChange = { (event) => this.handleFiles(event.target.files) }
+                            type = "file"
+                        />
+                        <label
+                            className = "button"
+                            htmlFor = "fileElem"
+                        >
+                            Select .csv file
+                        </label>
+                    </form>
+                </div>
+                <IncomesAndExpenditures transactions = { this.state.transactions }/>
+            </AppContext.Provider>
         );
     }
 
@@ -134,10 +159,9 @@ class App extends Component {
             rows.push(row);
         }
 
-        console.log(rows);
-        console.log($MONA);
-
-        this.countBalance(rows);
+        this.setState({
+            transactions: rows
+        });
     }
 
     parseData(data) {
@@ -160,30 +184,6 @@ class App extends Component {
         }
 
         return null;
-    }
-
-    countBalance(rows) {
-        const existAnyBlacklistedAccountNumber = BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS.length;
-
-        const balance = rows.reduce((balanceAccumulator, transaction) => {
-            if (transaction.amount) {
-                if (existAnyBlacklistedAccountNumber && transaction.counterpartyAccountNumber) {
-                    return !this.transactionIsWithBlacklistedAccountNumber(transaction.counterpartyAccountNumber) ?
-                        balanceAccumulator + transaction.amount :
-                        balanceAccumulator;
-                } else {
-                    return balanceAccumulator + transaction.amount;
-                }
-            } else {
-                return balanceAccumulator;
-            }
-        }, 0);
-
-        console.log('balance: ' + balance);
-    }
-
-    transactionIsWithBlacklistedAccountNumber(accountNumber) {
-        return BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS.includes(accountNumber);
     }
 
     isNumeric(value) {
