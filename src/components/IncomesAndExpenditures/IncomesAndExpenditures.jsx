@@ -23,21 +23,22 @@ class IncomesAndExpenditures extends Component {
         return (
             <AppContext.Consumer>
                 { context => (
-                    <p>{ this.countBalance(transactions, context) }</p>
+                    <p>{ this.countIncomesAndExpenditures(transactions, context) }</p>
                 )}
             </AppContext.Consumer>
         );
     }
 
-    countBalance(transactions, blacklistedAccountNumbers) {
-        const existAnyBlacklistedAccountNumber = blacklistedAccountNumbers.length;
+    countIncomesAndExpenditures(transactions, context) {
+        const { BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS } = context;
+        const existAnyBlacklistedAccountNumber = BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS.length;
 
         return transactions.reduce((balanceAccumulator, transaction) => {
             if (transaction.amount) {
                 if (existAnyBlacklistedAccountNumber && transaction.counterpartyAccountNumber) {
                     return !this.transactionIsWithBlacklistedAccountNumber(
                         transaction.counterpartyAccountNumber,
-                        blacklistedAccountNumbers
+                        BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS
                     ) ?
                         balanceAccumulator + transaction.amount :
                         balanceAccumulator;
