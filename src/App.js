@@ -196,7 +196,7 @@ class App extends Component {
     }
 
     parseDate(value) {
-        return new Date(value.replace(/^(\d+)[/](\d+)[/](\d+).+/, '$3-$2-$1'));
+        return new Date(value.replace(/^(\d+)[/](\d+)[/](\d+)/, '$3-$2-$1'));
     }
 
     unquoteValue(value) {
