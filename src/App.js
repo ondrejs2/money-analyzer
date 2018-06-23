@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import isNumeric from './utils/isNumeric';
 import IncomesAndExpenditures from './components/IncomesAndExpenditures/IncomesAndExpenditures';
 
 const CSV_ENCODING = 'utf-8';
@@ -175,7 +176,7 @@ class App extends Component {
                 }
             }
 
-            if (this.isNumeric(unquotedData)) {
+            if (isNumeric(unquotedData)) {
                 return parseFloat(unquotedData);
             } else if (this.isDate(unquotedData)) {
                 return this.parseDate(unquotedData);
@@ -185,10 +186,6 @@ class App extends Component {
         }
 
         return null;
-    }
-
-    isNumeric(value) {
-        return !isNaN(parseFloat(value)) && isFinite(value);
     }
 
     isDate(value) {
