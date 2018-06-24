@@ -5,6 +5,8 @@ import { AppContext } from '../../App'
 const BALANCE = 'balance';
 const EXPENDITURES = 'expenditures';
 const INCOMES = 'incomes';
+const MAX_MONTHLY_EXPENDITURES = 'maxMonthlyExpenditures';
+const MAX_MONTHLY_INCOMES = 'maxMonthlyIncomes';
 const META = 'meta';
 const MONTHS = 'months';
 
@@ -89,12 +91,27 @@ class IncomesAndExpenditures extends Component {
 
     countMonthlyBalance(groupedIaE) {
         Object.keys(groupedIaE).forEach(year => {
+            let yearMaxMonthlyIncomes = 0;
+            let yearMaxMonthlyExpenditures = 0;
+
             Object.keys(groupedIaE[year][MONTHS]).forEach(month => {
-                groupedIaE[year][MONTHS][month][INCOMES] = Math.round(groupedIaE[year][MONTHS][month][INCOMES]);
-                groupedIaE[year][MONTHS][month][EXPENDITURES] = Math.round(groupedIaE[year][MONTHS][month][EXPENDITURES]);
-                groupedIaE[year][MONTHS][month][BALANCE] =
-                    groupedIaE[year][MONTHS][month][INCOMES] - groupedIaE[year][MONTHS][month][EXPENDITURES];
-            })
+                const monthIncomes = Math.round(groupedIaE[year][MONTHS][month][INCOMES]);
+                const monthExpenditures = Math.round(groupedIaE[year][MONTHS][month][EXPENDITURES]);
+
+                groupedIaE[year][MONTHS][month][INCOMES] = monthIncomes;
+                groupedIaE[year][MONTHS][month][EXPENDITURES] = monthExpenditures;
+                groupedIaE[year][MONTHS][month][BALANCE] = monthIncomes - monthExpenditures;
+
+                if (monthIncomes > yearMaxMonthlyIncomes) {
+                    yearMaxMonthlyIncomes = monthIncomes;
+                }
+                if (monthExpenditures > yearMaxMonthlyExpenditures) {
+                    yearMaxMonthlyExpenditures = monthExpenditures;
+                }
+            });
+
+            groupedIaE[year][META][MAX_MONTHLY_INCOMES] = yearMaxMonthlyIncomes;
+            groupedIaE[year][META][MAX_MONTHLY_EXPENDITURES] = yearMaxMonthlyExpenditures;
         });
     }
 
