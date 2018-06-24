@@ -4,6 +4,7 @@ import { AppContext } from '../../App'
 
 const EXPENDITURES = 'expenditures';
 const INCOMES = 'incomes';
+const META = 'meta';
 const MONTHS = 'months';
 
 class IncomesAndExpenditures extends Component {
@@ -75,9 +76,23 @@ class IncomesAndExpenditures extends Component {
             }
         });
 
+        this.countYearlyIaE(groupedIaE);
+
         console.log(groupedIaE);
 
         return groupedIaE;
+    }
+
+    countYearlyIaE(groupedIaE) {
+        Object.keys(groupedIaE).forEach(year => {
+           groupedIaE[year][META][INCOMES] = Object.values(groupedIaE[year][MONTHS]).reduce(
+               (yearlyIncomes, month) => yearlyIncomes + month[INCOMES]
+           , 0);
+
+            groupedIaE[year][META][EXPENDITURES] = Object.values(groupedIaE[year][MONTHS]).reduce(
+                (yearlyExpenditures, month) => yearlyExpenditures + month[EXPENDITURES]
+            , 0);
+        });
     }
 
     transactionIsBlacklisted(blacklistedAccountNumbers, counterpartyAccountNumber) {
