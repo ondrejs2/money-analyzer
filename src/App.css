@@ -1,3 +1,9 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 #drop-area {
     border: 2px dashed #ccc;
     border-radius: 20px;

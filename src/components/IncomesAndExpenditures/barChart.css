@@ -1,0 +1,65 @@
+.bar-chart {
+    width: 100%;
+}
+
+.bar-chart__section {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.bar-chart__negative-side {
+    flex: 0 0 50%;
+}
+
+.bar-chart__label {
+    padding: 8px 16px;
+    font-size: 22px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.bar-chart__label--negative-side {
+    text-align: right;
+}
+
+.bar-chart__label--positive-side {
+    text-align: left;
+}
+
+.bar-chart__positive-side {
+    flex: 0 0 50%;
+    border-left: 1px solid black;
+}
+
+.bar-chart__bar {
+    padding: 4px 8px;
+    margin: 4px 0;
+}
+
+.bar-chart__bar--is-green {
+    background-color: lightgreen;
+    color: green;
+    border: 1px solid green;
+    border-left: none;
+}
+
+.bar-chart__bar--is-red {
+    background-color: lightpink;
+    color: red;
+    border: 1px solid red;
+    border-left: none;
+}
+
+.bar-chart__bar--is-blue {
+    background-color: lightblue;
+    color: blue;
+    border: 1px solid blue;
+    border-left: none;
+}
+
+.bar-chart__bar-value {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: right;
+}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AppContext } from '../../App'
+import './barChart.css';
+import { AppContext } from '../../App';
+import { CZECH_MONTH_NAMES } from '../../utils/constants';
 
 const BALANCE = 'balance';
 const EXPENDITURES = 'expenditures';
@@ -40,7 +42,61 @@ class IncomesAndExpenditures extends Component {
         let groupedIaE = this.groupIaE(BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS);
 
         return (
-            <div>just something</div>
+            <div>
+                { Object.keys(groupedIaE).map(year => this.renderYearlyIaE(year, groupedIaE)) }
+            </div>
+        );
+    }
+
+    renderYearlyIaE(year, groupedIaE) {
+        return (
+            <div
+                className = "bar-chart"
+                key = { year }
+            >
+                { Object.keys(groupedIaE[year][MONTHS]).map(month => {
+                    const maxValue = Math.max(
+                        groupedIaE[year][META][MAX_MONTHLY_INCOMES],
+                        groupedIaE[year][META][MAX_MONTHLY_EXPENDITURES]
+                    );
+                    const monthIncomes = groupedIaE[year][MONTHS][month][INCOMES];
+                    const monthExpenditures = groupedIaE[year][MONTHS][month][EXPENDITURES];
+                    const monthBalance = groupedIaE[year][MONTHS][month][BALANCE];
+
+                    return (
+                        <div
+                            className = "bar-chart__section"
+                            key = { `${year}_${month}` }
+                        >
+                            <div className = "bar-chart__negative-side">
+                                <h2 className = "bar-chart__label bar-chart__label--negative-side">
+                                    { month }
+                                </h2>
+                            </div>
+                            <div className = "bar-chart__positive-side">
+                                <h2 className = "bar-chart__label bar-chart__label--positive-side">
+                                    { CZECH_MONTH_NAMES[month - 1] }
+                                </h2>
+                                <div
+                                    className = "bar-chart__bar bar-chart__bar--is-green"
+                                    style = { { width: `${(monthIncomes / maxValue) * 100}%` } }>
+                                    <h3 className = "bar-chart__bar-value">{ monthIncomes }</h3>
+                                </div>
+                                <div
+                                    className = "bar-chart__bar bar-chart__bar--is-red"
+                                    style = { { width: `${(monthExpenditures / maxValue) * 100}%` } }>
+                                    <h3 className = "bar-chart__bar-value">{ monthExpenditures }</h3>
+                                </div>
+                                <div
+                                    className = "bar-chart__bar bar-chart__bar--is-blue"
+                                    style = { { width: `${(monthBalance / maxValue) * 100}%` } }>
+                                    <h3 className = "bar-chart__bar-value">{ monthBalance }</h3>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                }) }
+            </div>
         );
     }
 
