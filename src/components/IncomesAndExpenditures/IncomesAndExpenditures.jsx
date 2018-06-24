@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../App'
 
+const EXPENDITURES = 'expenditures';
+const INCOMES = 'incomes';
+const MONTHS = 'months';
+
 class IncomesAndExpenditures extends Component {
     static propTypes = {
         transactions: PropTypes.arrayOf(PropTypes.shape({
@@ -22,36 +26,71 @@ class IncomesAndExpenditures extends Component {
 
         return (
             <AppContext.Consumer>
-                { context => (
-                    <p>{ this.countIncomesAndExpenditures(transactions, context) }</p>
-                )}
+                { context => this.renderIaE(context) }
             </AppContext.Consumer>
         );
     }
 
-    countIncomesAndExpenditures(transactions, context) {
+    renderIaE(context) {
         const { BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS } = context;
-        const existAnyBlacklistedAccountNumber = BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS.length;
+        let groupedIaE = this.groupIaE(BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS);
 
-        return transactions.reduce((balanceAccumulator, transaction) => {
-            if (transaction.amount) {
-                if (existAnyBlacklistedAccountNumber && transaction.counterpartyAccountNumber) {
-                    return !this.transactionIsWithBlacklistedAccountNumber(
-                        transaction.counterpartyAccountNumber,
-                        BLACKLISTED_COUNTERPARTY_ACCOUNT_NUMBERS
-                    ) ?
-                        balanceAccumulator + transaction.amount :
-                        balanceAccumulator;
-                } else {
-                    return balanceAccumulator + transaction.amount;
-                }
-            } else {
-                return balanceAccumulator;
-            }
-        }, 0);
+        return (
+            <div>just something</div>
+        );
     }
 
-    transactionIsWithBlacklistedAccountNumber(accountNumber, blacklistedAccountNumbers) {
+    groupIaE(blacklistedAccountNumbers = []) {
+        const { transactions } = this.props;
+        let groupedIaE = {};
+
+        transactions.forEach(transaction => {
+            const { amount, counterpartyAccountNumber, date } = transaction;
+
+            if (date && amount && !this.transactionIsBlacklisted(blacklistedAccountNumbers, counterpartyAccountNumber)) {
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+
+                if (!groupedIaE[year]) {
+                    groupedIaE[year] = {
+                        meta: {
+                            [EXPENDITURES]: 0,
+                            [INCOMES]: 0
+                        },
+                        [MONTHS]: {},
+                    };
+                }
+                if (!groupedIaE[year][MONTHS][month]) {
+                    groupedIaE[year][MONTHS][month] = {
+                        [EXPENDITURES]: 0,
+                        [INCOMES]: 0
+                    };
+                }
+
+                if (amount < 0) {
+                    groupedIaE[year][MONTHS][month][EXPENDITURES] += amount;
+                } else {
+                    groupedIaE[year][MONTHS][month][INCOMES] += amount;
+                }
+            }
+        });
+
+        console.log(groupedIaE);
+
+        return groupedIaE;
+    }
+
+    transactionIsBlacklisted(blacklistedAccountNumbers, counterpartyAccountNumber) {
+        const existAnyBlacklistedAccountNumber = blacklistedAccountNumbers.length;
+
+        if (!existAnyBlacklistedAccountNumber || !counterpartyAccountNumber) {
+            return false;
+        }
+
+        return this.IsWithBlacklistedAccountNumber(blacklistedAccountNumbers, counterpartyAccountNumber);
+    }
+
+    IsWithBlacklistedAccountNumber(blacklistedAccountNumbers, accountNumber) {
         return blacklistedAccountNumbers.includes(accountNumber);
     }
 }
