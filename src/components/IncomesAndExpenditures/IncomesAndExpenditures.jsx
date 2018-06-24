@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../App'
 
+const BALANCE = 'balance';
 const EXPENDITURES = 'expenditures';
 const INCOMES = 'incomes';
 const META = 'meta';
@@ -55,6 +56,7 @@ class IncomesAndExpenditures extends Component {
                 if (!groupedIaE[year]) {
                     groupedIaE[year] = {
                         meta: {
+                            [BALANCE]: 0,
                             [EXPENDITURES]: 0,
                             [INCOMES]: 0
                         },
@@ -63,24 +65,37 @@ class IncomesAndExpenditures extends Component {
                 }
                 if (!groupedIaE[year][MONTHS][month]) {
                     groupedIaE[year][MONTHS][month] = {
+                        [BALANCE]: 0,
                         [EXPENDITURES]: 0,
                         [INCOMES]: 0
                     };
                 }
 
                 if (amount < 0) {
-                    groupedIaE[year][MONTHS][month][EXPENDITURES] += amount;
+                    groupedIaE[year][MONTHS][month][EXPENDITURES] += Math.abs(amount);
                 } else {
                     groupedIaE[year][MONTHS][month][INCOMES] += amount;
                 }
             }
         });
 
+        this.countMonthlyBalance(groupedIaE);
         this.countYearlyIaE(groupedIaE);
 
         console.log(groupedIaE);
 
         return groupedIaE;
+    }
+
+    countMonthlyBalance(groupedIaE) {
+        Object.keys(groupedIaE).forEach(year => {
+            Object.keys(groupedIaE[year][MONTHS]).forEach(month => {
+                groupedIaE[year][MONTHS][month][INCOMES] = Math.round(groupedIaE[year][MONTHS][month][INCOMES]);
+                groupedIaE[year][MONTHS][month][EXPENDITURES] = Math.round(groupedIaE[year][MONTHS][month][EXPENDITURES]);
+                groupedIaE[year][MONTHS][month][BALANCE] =
+                    groupedIaE[year][MONTHS][month][INCOMES] - groupedIaE[year][MONTHS][month][EXPENDITURES];
+            })
+        });
     }
 
     countYearlyIaE(groupedIaE) {
@@ -92,6 +107,8 @@ class IncomesAndExpenditures extends Component {
             groupedIaE[year][META][EXPENDITURES] = Object.values(groupedIaE[year][MONTHS]).reduce(
                 (yearlyExpenditures, month) => yearlyExpenditures + month[EXPENDITURES]
             , 0);
+
+            groupedIaE[year][META][BALANCE] = groupedIaE[year][META][INCOMES] - groupedIaE[year][META][EXPENDITURES];
         });
     }
 
