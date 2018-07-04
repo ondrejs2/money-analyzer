@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './barChart.css';
 import { AppContext } from '../../App';
 import { CZECH_MONTH_NAMES } from '../../utils/constants';
-import formatNumber from '../../utils/formatNumber'
+import formatNumber, { FORMAT_TYPE } from '../../utils/formatNumber'
 
 const BALANCE = 'balance';
 const EXPENSES = 'expenses';
@@ -75,7 +75,7 @@ class IncomesAndExpenses extends Component {
                         >
                             <div className = "bar-chart__negative-side">
                                 <h2 className = "bar-chart__label bar-chart__label--negative-side">
-                                    { formatNumber(month) }
+                                    { formatNumber(month, FORMAT_TYPE.TWO_DIGITS) }
                                 </h2>
                             </div>
                             <div className = "bar-chart__positive-side">
@@ -85,17 +85,23 @@ class IncomesAndExpenses extends Component {
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-green"
                                     style = { { width: `${(monthIncomes / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">{ monthIncomes }</h3>
+                                    <h3 className = "bar-chart__bar-value">
+                                        { formatNumber(monthIncomes, FORMAT_TYPE.SEPARATE_THOUSANDS) }
+                                    </h3>
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-red"
                                     style = { { width: `${(monthExpenses / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">{ monthExpenses }</h3>
+                                    <h3 className = "bar-chart__bar-value">
+                                        { formatNumber(monthExpenses, FORMAT_TYPE.SEPARATE_THOUSANDS) }
+                                    </h3>
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-blue"
                                     style = { { width: `${(monthBalance / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">{ monthBalance }</h3>
+                                    <h3 className = "bar-chart__bar-value">
+                                        { formatNumber(monthBalance, FORMAT_TYPE.SEPARATE_THOUSANDS) }
+                                    </h3>
                                 </div>
                             </div>
                         </div>
