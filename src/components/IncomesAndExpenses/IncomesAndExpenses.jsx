@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './barChart.css';
 import { AppContext } from '../../App';
 import { CZECH_MONTH_NAMES } from '../../utils/constants';
+import formatNumber from '../../utils/formatNumber'
 
 const BALANCE = 'balance';
 const EXPENSES = 'expenses';
@@ -70,7 +71,7 @@ class IncomesAndExpenses extends Component {
                         >
                             <div className = "bar-chart__negative-side">
                                 <h2 className = "bar-chart__label bar-chart__label--negative-side">
-                                    { month }
+                                    { formatNumber(month) }
                                 </h2>
                             </div>
                             <div className = "bar-chart__positive-side">
