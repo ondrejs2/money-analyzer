@@ -45,6 +45,10 @@ class IncomesAndExpenses extends Component {
         return (
             <div>
                 { Object.keys(groupedIaE).map(year => this.renderYearlyIaE(year, groupedIaE)) }
+                <div>
+                    <h1>dummy header</h1>
+                    <p>dummy content</p>
+                </div>
             </div>
         );
     }

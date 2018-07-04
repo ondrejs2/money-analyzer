@@ -5,6 +5,11 @@
 .bar-chart__section {
     display: flex;
     flex-flow: row nowrap;
+    border-bottom: 1px solid #d7d9e6;
+}
+
+.bar-chart__section:last-of-type {
+    border-bottom: none;
 }
 
 .bar-chart__negative-side {
@@ -29,7 +34,7 @@
 
 .bar-chart__positive-side {
     flex: 0 0 50%;
-    border-left: 1px solid black;
+    border-left: 1px solid #000;
 }
 
 .bar-chart__bar {
