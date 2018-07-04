@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import isNumeric from './utils/isNumeric';
-import IncomesAndExpenditures from './components/IncomesAndExpenditures/IncomesAndExpenditures';
+import IncomesAndExpenses from './components/IncomesAndExpenses/IncomesAndExpenses';
 
 const CSV_ENCODING = 'utf-8';
 const CSV_DELIMITER = ';';
@@ -94,7 +94,7 @@ class App extends Component {
                     </form>
                 </div>
                 { this.state.transactions && this.state.transactions.length ?
-                    <IncomesAndExpenditures transactions = { this.state.transactions }/> :
+                    <IncomesAndExpenses transactions = { this.state.transactions }/> :
                     null
                 }
             </AppContext.Provider>

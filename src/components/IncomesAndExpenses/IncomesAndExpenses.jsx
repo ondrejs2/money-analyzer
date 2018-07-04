@@ -5,14 +5,14 @@ import { AppContext } from '../../App';
 import { CZECH_MONTH_NAMES } from '../../utils/constants';
 
 const BALANCE = 'balance';
-const EXPENDITURES = 'expenditures';
+const EXPENSES = 'expenses';
 const INCOMES = 'incomes';
-const MAX_MONTHLY_EXPENDITURES = 'maxMonthlyExpenditures';
+const MAX_MONTHLY_EXPENSES = 'maxMonthlyExpenses';
 const MAX_MONTHLY_INCOMES = 'maxMonthlyIncomes';
 const META = 'meta';
 const MONTHS = 'months';
 
-class IncomesAndExpenditures extends Component {
+class IncomesAndExpenses extends Component {
     static propTypes = {
         transactions: PropTypes.arrayOf(PropTypes.shape({
             amount: PropTypes.number,
@@ -57,10 +57,10 @@ class IncomesAndExpenditures extends Component {
                 { Object.keys(groupedIaE[year][MONTHS]).map(month => {
                     const maxValue = Math.max(
                         groupedIaE[year][META][MAX_MONTHLY_INCOMES],
-                        groupedIaE[year][META][MAX_MONTHLY_EXPENDITURES]
+                        groupedIaE[year][META][MAX_MONTHLY_EXPENSES]
                     );
                     const monthIncomes = groupedIaE[year][MONTHS][month][INCOMES];
-                    const monthExpenditures = groupedIaE[year][MONTHS][month][EXPENDITURES];
+                    const monthExpenses = groupedIaE[year][MONTHS][month][EXPENSES];
                     const monthBalance = groupedIaE[year][MONTHS][month][BALANCE];
 
                     return (
@@ -84,8 +84,8 @@ class IncomesAndExpenditures extends Component {
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-red"
-                                    style = { { width: `${(monthExpenditures / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">{ monthExpenditures }</h3>
+                                    style = { { width: `${(monthExpenses / maxValue) * 100}%` } }>
+                                    <h3 className = "bar-chart__bar-value">{ monthExpenses }</h3>
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-blue"
@@ -115,7 +115,7 @@ class IncomesAndExpenditures extends Component {
                     groupedIaE[year] = {
                         meta: {
                             [BALANCE]: 0,
-                            [EXPENDITURES]: 0,
+                            [EXPENSES]: 0,
                             [INCOMES]: 0
                         },
                         [MONTHS]: {},
@@ -124,13 +124,13 @@ class IncomesAndExpenditures extends Component {
                 if (!groupedIaE[year][MONTHS][month]) {
                     groupedIaE[year][MONTHS][month] = {
                         [BALANCE]: 0,
-                        [EXPENDITURES]: 0,
+                        [EXPENSES]: 0,
                         [INCOMES]: 0
                     };
                 }
 
                 if (amount < 0) {
-                    groupedIaE[year][MONTHS][month][EXPENDITURES] += Math.abs(amount);
+                    groupedIaE[year][MONTHS][month][EXPENSES] += Math.abs(amount);
                 } else {
                     groupedIaE[year][MONTHS][month][INCOMES] += amount;
                 }
@@ -148,26 +148,26 @@ class IncomesAndExpenditures extends Component {
     countMonthlyBalance(groupedIaE) {
         Object.keys(groupedIaE).forEach(year => {
             let yearMaxMonthlyIncomes = 0;
-            let yearMaxMonthlyExpenditures = 0;
+            let yearMaxMonthlyExpenses = 0;
 
             Object.keys(groupedIaE[year][MONTHS]).forEach(month => {
                 const monthIncomes = Math.round(groupedIaE[year][MONTHS][month][INCOMES]);
-                const monthExpenditures = Math.round(groupedIaE[year][MONTHS][month][EXPENDITURES]);
+                const monthExpenses = Math.round(groupedIaE[year][MONTHS][month][EXPENSES]);
 
                 groupedIaE[year][MONTHS][month][INCOMES] = monthIncomes;
-                groupedIaE[year][MONTHS][month][EXPENDITURES] = monthExpenditures;
-                groupedIaE[year][MONTHS][month][BALANCE] = monthIncomes - monthExpenditures;
+                groupedIaE[year][MONTHS][month][EXPENSES] = monthExpenses;
+                groupedIaE[year][MONTHS][month][BALANCE] = monthIncomes - monthExpenses;
 
                 if (monthIncomes > yearMaxMonthlyIncomes) {
                     yearMaxMonthlyIncomes = monthIncomes;
                 }
-                if (monthExpenditures > yearMaxMonthlyExpenditures) {
-                    yearMaxMonthlyExpenditures = monthExpenditures;
+                if (monthExpenses > yearMaxMonthlyExpenses) {
+                    yearMaxMonthlyExpenses = monthExpenses;
                 }
             });
 
             groupedIaE[year][META][MAX_MONTHLY_INCOMES] = yearMaxMonthlyIncomes;
-            groupedIaE[year][META][MAX_MONTHLY_EXPENDITURES] = yearMaxMonthlyExpenditures;
+            groupedIaE[year][META][MAX_MONTHLY_EXPENSES] = yearMaxMonthlyExpenses;
         });
     }
 
@@ -177,11 +177,11 @@ class IncomesAndExpenditures extends Component {
                (yearlyIncomes, month) => yearlyIncomes + month[INCOMES]
            , 0);
 
-            groupedIaE[year][META][EXPENDITURES] = Object.values(groupedIaE[year][MONTHS]).reduce(
-                (yearlyExpenditures, month) => yearlyExpenditures + month[EXPENDITURES]
+            groupedIaE[year][META][EXPENSES] = Object.values(groupedIaE[year][MONTHS]).reduce(
+                (yearlyExpenses, month) => yearlyExpenses + month[EXPENSES]
             , 0);
 
-            groupedIaE[year][META][BALANCE] = groupedIaE[year][META][INCOMES] - groupedIaE[year][META][EXPENDITURES];
+            groupedIaE[year][META][BALANCE] = groupedIaE[year][META][INCOMES] - groupedIaE[year][META][EXPENSES];
         });
     }
 
@@ -200,4 +200,4 @@ class IncomesAndExpenditures extends Component {
     }
 }
 
-export default IncomesAndExpenditures;
+export default IncomesAndExpenses;
