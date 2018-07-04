@@ -19,6 +19,7 @@
 }
 
 .bar-chart__label--negative-side {
+    color: #a9a9a9;
     text-align: right;
 }
 
