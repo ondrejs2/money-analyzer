@@ -12,6 +12,7 @@ const MAX_MONTHLY_EXPENSES = 'maxMonthlyExpenses';
 const MAX_MONTHLY_INCOMES = 'maxMonthlyIncomes';
 const META = 'meta';
 const MONTHS = 'months';
+const TOTALS = 'totals';
 
 class IncomesAndExpenses extends Component {
     static propTypes = {
@@ -125,9 +126,11 @@ class IncomesAndExpenses extends Component {
                 if (!groupedIaE[year]) {
                     groupedIaE[year] = {
                         meta: {
-                            [BALANCE]: 0,
-                            [EXPENSES]: 0,
-                            [INCOMES]: 0
+                            [TOTALS]: {
+                                [BALANCE]: 0,
+                                [EXPENSES]: 0,
+                                [INCOMES]: 0
+                            }
                         },
                         [MONTHS]: {},
                     };
@@ -184,15 +187,16 @@ class IncomesAndExpenses extends Component {
 
     countYearlyIaE(groupedIaE) {
         Object.keys(groupedIaE).forEach(year => {
-           groupedIaE[year][META][INCOMES] = Object.values(groupedIaE[year][MONTHS]).reduce(
+           groupedIaE[year][META][TOTALS][INCOMES] = Object.values(groupedIaE[year][MONTHS]).reduce(
                (yearlyIncomes, month) => yearlyIncomes + month[INCOMES]
            , 0);
 
-            groupedIaE[year][META][EXPENSES] = Object.values(groupedIaE[year][MONTHS]).reduce(
+            groupedIaE[year][META][TOTALS][EXPENSES] = Object.values(groupedIaE[year][MONTHS]).reduce(
                 (yearlyExpenses, month) => yearlyExpenses + month[EXPENSES]
             , 0);
 
-            groupedIaE[year][META][BALANCE] = groupedIaE[year][META][INCOMES] - groupedIaE[year][META][EXPENSES];
+            groupedIaE[year][META][TOTALS][BALANCE] =
+                groupedIaE[year][META][TOTALS][INCOMES] - groupedIaE[year][META][TOTALS][EXPENSES];
         });
     }
 
