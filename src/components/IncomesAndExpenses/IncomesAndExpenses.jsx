@@ -5,6 +5,7 @@ import { AppContext } from '../../App';
 import { CZECH_MONTH_NAMES } from '../../utils/constants';
 import formatNumber, { FORMAT_TYPE } from '../../utils/formatNumber'
 
+const AVERAGES = 'averages';
 const BALANCE = 'balance';
 const EXPENSES = 'expenses';
 const INCOMES = 'incomes';
@@ -126,6 +127,11 @@ class IncomesAndExpenses extends Component {
                 if (!groupedIaE[year]) {
                     groupedIaE[year] = {
                         meta: {
+                            [AVERAGES]: {
+                                [BALANCE]: 0,
+                                [EXPENSES]: 0,
+                                [INCOMES]: 0
+                            },
                             [TOTALS]: {
                                 [BALANCE]: 0,
                                 [EXPENSES]: 0,
@@ -187,16 +193,24 @@ class IncomesAndExpenses extends Component {
 
     countYearlyIaE(groupedIaE) {
         Object.keys(groupedIaE).forEach(year => {
-           groupedIaE[year][META][TOTALS][INCOMES] = Object.values(groupedIaE[year][MONTHS]).reduce(
-               (yearlyIncomes, month) => yearlyIncomes + month[INCOMES]
-           , 0);
-
-            groupedIaE[year][META][TOTALS][EXPENSES] = Object.values(groupedIaE[year][MONTHS]).reduce(
+            const totalIncomes = Object.values(groupedIaE[year][MONTHS]).reduce(
+                (yearlyIncomes, month) => yearlyIncomes + month[INCOMES]
+                , 0
+            );
+            const totalExpenses = Object.values(groupedIaE[year][MONTHS]).reduce(
                 (yearlyExpenses, month) => yearlyExpenses + month[EXPENSES]
-            , 0);
+                , 0
+            );
+            const totalBalance = totalIncomes - totalExpenses;
+            const monthsCount = Object.keys(groupedIaE[year][MONTHS]).length;
 
-            groupedIaE[year][META][TOTALS][BALANCE] =
-                groupedIaE[year][META][TOTALS][INCOMES] - groupedIaE[year][META][TOTALS][EXPENSES];
+            groupedIaE[year][META][TOTALS][INCOMES] = totalIncomes;
+            groupedIaE[year][META][TOTALS][EXPENSES] = totalExpenses;
+            groupedIaE[year][META][TOTALS][BALANCE] = totalBalance;
+
+            groupedIaE[year][META][AVERAGES][INCOMES] = Math.round(totalIncomes / monthsCount);
+            groupedIaE[year][META][AVERAGES][EXPENSES] = Math.round(totalExpenses / monthsCount);
+            groupedIaE[year][META][AVERAGES][BALANCE] = Math.round(totalBalance / monthsCount);
         });
     }
 
