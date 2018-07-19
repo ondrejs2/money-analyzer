@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import './barChart.css';
 import { AppContext } from '../../App';
 import { CZECH_MONTH_NAMES } from '../../utils/constants';
-import formatNumber, { FORMAT_TYPE } from '../../utils/formatNumber'
+import formatNumber, { FORMAT_TYPE } from '../../utils/formatNumber';
+import IncomesAndExpensesSummaryTable from './IncomesAndExpensesSummaryTable';
 
-const AVERAGES = 'averages';
-const BALANCE = 'balance';
-const EXPENSES = 'expenses';
-const INCOMES = 'incomes';
+export const AVERAGES = 'averages';
+export const BALANCE = 'balance';
+export const EXPENSES = 'expenses';
+export const INCOMES = 'incomes';
 const MAX_MONTHLY_EXPENSES = 'maxMonthlyExpenses';
 const MAX_MONTHLY_INCOMES = 'maxMonthlyIncomes';
 const META = 'meta';
 const MONTHS = 'months';
-const TOTALS = 'totals';
+export const TOTALS = 'totals';
 
 class IncomesAndExpenses extends Component {
     static propTypes = {
@@ -46,11 +47,17 @@ class IncomesAndExpenses extends Component {
 
         return (
             <div>
-                { Object.keys(groupedIaE).map(year => this.renderYearlyIaE(year, groupedIaE)) }
-                <div>
-                    <h1>dummy header</h1>
-                    <p>dummy content</p>
-                </div>
+                { Object.keys(groupedIaE).map((year, index) => {
+                    return (
+                        <div key = { index }>
+                            { this.renderYearlyIaE(year, groupedIaE) }
+                            <IncomesAndExpensesSummaryTable
+                                averages = { groupedIaE[year][META][AVERAGES] }
+                                totals = { groupedIaE[year][META][TOTALS] }
+                            />
+                        </div>
+                    );
+                }) }
             </div>
         );
     }
