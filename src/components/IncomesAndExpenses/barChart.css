@@ -30,6 +30,21 @@
 
 .bar-chart__label--positive-side {
     text-align: left;
+    position: relative;
+}
+
+.bar-chart__label--positive-side::before {
+    box-sizing: border-box;
+    width: 15px;
+    height: 15px;
+    border: 5px solid #0080ff;
+    border-radius: 8px;
+    left: -8px;
+    background-color: #fff;
+    content: "";
+    display: block;
+    position: absolute;
+    top: calc(0.5em + 8px - 7px);
 }
 
 .bar-chart__positive-side {
