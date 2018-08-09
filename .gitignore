@@ -4,7 +4,7 @@
 /node_modules
 
 # compiled CSS (.css files) from the Sass (.scss files)
-src/**/*.css
+/src/**/*.css
 
 # testing
 /coverage
