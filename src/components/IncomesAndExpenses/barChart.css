@@ -8,8 +8,8 @@
 
 .bar-chart__main-label {
     font-size: 30px;
-    color: #a9a9a9;
-    border-bottom: 3px solid #0080ff;
+    color: #0080ff;
+    border-bottom: 3px solid #a9a9a9;
 }
 
 .bar-chart__section {
@@ -35,7 +35,7 @@
 }
 
 .bar-chart__label--negative-side {
-    color: #a9a9a9;
+    color: #0080ff;
     text-align: right;
 }
 
@@ -48,7 +48,7 @@
     box-sizing: border-box;
     width: 15px;
     height: 15px;
-    border: 5px solid #0080ff;
+    border: 5px solid #a9a9a9;
     border-radius: 8px;
     left: -8px;
     background-color: #fff;
