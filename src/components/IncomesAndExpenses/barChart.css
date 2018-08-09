@@ -2,6 +2,16 @@
     width: 100%;
 }
 
+.bar-chart__main-label-wrapper {
+    text-align: center;
+}
+
+.bar-chart__main-label {
+    font-size: 30px;
+    color: #a9a9a9;
+    border-bottom: 3px solid #0080ff;
+}
+
 .bar-chart__section {
     display: flex;
     flex-flow: row nowrap;

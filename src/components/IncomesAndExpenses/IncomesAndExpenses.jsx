@@ -68,6 +68,9 @@ class IncomesAndExpenses extends Component {
                 className = "bar-chart"
                 key = { year }
             >
+                <h1 className = "bar-chart__main-label-wrapper">
+                    <span className = "bar-chart__main-label">{ year }</span>
+                </h1>
                 { Object.keys(groupedIaE[year][MONTHS]).map(month => {
                     const maxValue = Math.max(
                         groupedIaE[year][META][MAX_MONTHLY_INCOMES],
