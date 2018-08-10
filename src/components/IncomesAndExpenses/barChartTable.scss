@@ -1,45 +1,51 @@
+@import "../../styles/colors";
+
 .bar-chart-table {
     width: 100%;
     border-collapse: collapse;
-}
 
-.bar-chart-table td,
-.bar-chart-table th {
-    width: 50%;
-}
+    th,
+    td
+     {
+        width: 50%;
+    }
 
-.bar-chart-table td:first-child {
-    text-align: right;
-}
+    th {
+        padding: 16px 8px;
+        border-top: 1px solid #000;
+        background-color: #fff;
+        border-bottom: 2px solid $light-gray;
+    }
 
-.bar-chart-table td:last-child {
-    border-left: 1px solid #000;
-}
+    tr {
+        background-color: #f5f5f5;
+        border-bottom: 1px solid $light-gray;
 
-.bar-chart-table th {
-    padding: 16px 8px;
-    border-top: 1px solid #000;
-    background-color: #fff;
-    border-bottom: 2px solid #d7d9e6;
-}
+        &:last-child {
+            border-bottom: none;
+        }
+    }
 
-.bar-chart-table td {
-    padding: 12px 8px;
-}
+    td {
+        padding: 12px 8px;
 
-.bar-chart-table tr {
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #d7d9e6;
-}
+        &:first-child {
+            text-align: right;
+        }
 
-.bar-chart-table tr:last-child {
-    border-bottom: none;
-}
+        &:last-child {
+            border-left: 1px solid #000;
+        }
+    }
 
-.bar-chart-table--is-green {
-    color: green;
-}
+    &-- {
 
-.bar-chart-table--is-red {
-    color: red;
+        &is-green {
+            color: green;
+        }
+
+        &is-red {
+            color: red;
+        }
+    }
 }
