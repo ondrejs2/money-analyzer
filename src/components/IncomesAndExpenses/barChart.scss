@@ -1,6 +1,10 @@
 @import "../../styles/colors";
 
 .bar-chart {
+    $small-point--size: 24px;
+    $big-point--size: 2 * $small-point--size;
+    $timeline-width: 6px;
+
     width: 100%;
 
     &__ {
@@ -12,13 +16,26 @@
         &main-label {
             font-size: 30px;
             color: $blue;
-            border-bottom: 3px solid $gray;
+        }
+
+        &start-point-wrapper {
+            position: relative;
+            left: 50%;
+        }
+
+        &start-point {
+            width: $big-point--size;
+            height: $big-point--size;
+            border: 5px solid $white;
+            border-radius: $big-point--size / 2;
+            margin-left: ($big-point--size / -2) + ($timeline-width / 2);
+            background-color: $blue;
+            display: block;
         }
 
         &section {
             display: flex;
             flex-flow: row nowrap;
-            border-bottom: 1px solid $light-gray;
 
             &:last-of-type {
                 border-bottom: none;
@@ -27,18 +44,18 @@
 
         &negative-side {
             flex: 0 0 50%;
-            padding: 16px 0;
+            padding: 12px 0;
         }
 
         &positive-side {
             flex: 0 0 50%;
-            border-left: 1px solid #000;
-            padding: 16px 0;
+            border-left: ($timeline-width + 1) solid $light-gray;
+            padding: 12px 0;
         }
 
         &label {
             padding: 8px 16px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: normal;
             text-transform: uppercase;
 
@@ -52,19 +69,20 @@
                 &positive-side {
                     text-align: left;
                     position: relative;
+                    color: $dark-gray;
 
                     &::before {
+                        position: absolute;
+                        top: 0.4em;
+                        left: ($small-point--size / -2) - ($timeline-width / 2);
                         box-sizing: border-box;
-                        width: 15px;
-                        height: 15px;
-                        border: 5px solid $gray;
-                        border-radius: 8px;
-                        left: -8px;
-                        background-color: #fff;
+                        width: $small-point--size;
+                        height: $small-point--size;
+                        border: 5px solid $white;
+                        border-radius: $small-point--size / 2;
+                        background-color: $blue;
                         content: "";
                         display: block;
-                        position: absolute;
-                        top: calc(0.5em + 8px - 7px);
                     }
                 }
             }
