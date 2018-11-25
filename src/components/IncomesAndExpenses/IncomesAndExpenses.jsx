@@ -100,22 +100,22 @@ class IncomesAndExpenses extends Component {
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-green"
                                     style = { { width: `${(monthIncomes / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">
-                                        { formatNumber(monthIncomes, FORMAT_TYPE.SEPARATE_THOUSANDS) }
+                                    <h3 className = "bar-chart__bar-value bar-chart__bar-value--is-green">
+                                        { formatNumber(monthIncomes, FORMAT_TYPE.SEPARATE_THOUSANDS) }&nbsp;Kč
                                     </h3>
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-red"
                                     style = { { width: `${(monthExpenses / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">
-                                        { formatNumber(monthExpenses, FORMAT_TYPE.SEPARATE_THOUSANDS) }
+                                    <h3 className = "bar-chart__bar-value bar-chart__bar-value--is-red">
+                                        { formatNumber(monthExpenses, FORMAT_TYPE.SEPARATE_THOUSANDS) }&nbsp;Kč
                                     </h3>
                                 </div>
                                 <div
-                                    className = "bar-chart__bar bar-chart__bar--is-blue"
+                                    className = "bar-chart__bar bar-chart__bar--is-purple"
                                     style = { { width: `${(monthBalance / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value">
-                                        { formatNumber(monthBalance, FORMAT_TYPE.SEPARATE_THOUSANDS) }
+                                    <h3 className = "bar-chart__bar-value bar-chart__bar-value--is-purple">
+                                        { formatNumber(monthBalance, FORMAT_TYPE.SEPARATE_THOUSANDS) }&nbsp;Kč
                                     </h3>
                                 </div>
                             </div>

@@ -59,18 +59,17 @@
             font-size: 20px;
             font-weight: normal;
             text-transform: uppercase;
+            color: $blue;
 
             &-- {
 
                 &negative-side {
-                    color: $blue;
                     text-align: right;
                 }
 
                 &positive-side {
                     text-align: left;
                     position: relative;
-                    color: $dark-gray;
 
                     &::before {
                         position: absolute;
@@ -90,39 +89,46 @@
         }
 
         &bar {
-            padding: 4px 8px;
+            padding: 12px;
             margin: 8px 0;
+            border-radius: 0 5px 5px 0;
 
             &-- {
 
                 &is-green {
-                    background-color: lightgreen;
-                    color: green;
-                    border: 1px solid green;
-                    border-left: none;
+                    background-color: $green;
                 }
 
                 &is-red {
-                    background-color: lightpink;
-                    color: red;
-                    border: 1px solid red;
-                    border-left: none;
+                    background-color: $red;
                 }
 
-                &is-blue {
-                    background-color: lightblue;
-                    color: blue;
-                    border: 1px solid blue;
-                    border-left: none;
+                &is-purple {
+                    background-color: $purple;
                 }
             }
         }
 
         &bar-value {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
-            text-transform: uppercase;
             text-align: right;
+            color: $white;
+
+            &-- {
+
+                &is-green {
+                    color: $dark-green;
+                }
+
+                &is-red {
+                    color: $dark-red;
+                }
+
+                &is-purple {
+                    color: $dark-purple;
+                }
+            }
         }
     }
 }
