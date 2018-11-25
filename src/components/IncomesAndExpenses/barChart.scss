@@ -2,7 +2,8 @@
 
 .bar-chart {
     $small-point--size: 24px;
-    $big-point--size: 2 * $small-point--size;
+    $small-point--border-width: 5px;
+    $big-point--size: (2 * $small-point--size) - (2 * $small-point--border-width);
     $timeline-width: 6px;
 
     width: 100%;
@@ -21,12 +22,12 @@
         &start-point-wrapper {
             position: relative;
             left: 50%;
+            display: inline-block;
         }
 
         &start-point {
             width: $big-point--size;
             height: $big-point--size;
-            border: 5px solid $white;
             border-radius: $big-point--size / 2;
             margin-left: ($big-point--size / -2) + ($timeline-width / 2);
             background-color: $blue;
