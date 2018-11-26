@@ -68,9 +68,9 @@ class IncomesAndExpenses extends Component {
                 className = "bar-chart"
                 key = { year }
             >
-                <h1 className = "bar-chart__main-label-wrapper">
+                <h2 className = "bar-chart__main-label-wrapper">
                     <span className = "bar-chart__main-label">{ year }</span>
-                </h1>
+                </h2>
                 <div className = "bar-chart__start-point-wrapper">
                     <span className = "bar-chart__start-point" />
                 </div>
@@ -89,34 +89,34 @@ class IncomesAndExpenses extends Component {
                             key = { `${year}_${month}` }
                         >
                             <div className = "bar-chart__negative-side">
-                                <h2 className = "bar-chart__label bar-chart__label--negative-side">
+                                <h3 className = "bar-chart__label bar-chart__label--negative-side">
                                     { formatNumber(month, FORMAT_TYPE.TWO_DIGITS) }
-                                </h2>
+                                </h3>
                             </div>
                             <div className = "bar-chart__positive-side">
-                                <h2 className = "bar-chart__label bar-chart__label--positive-side">
+                                <h3 className = "bar-chart__label bar-chart__label--positive-side">
                                     { CZECH_MONTH_NAMES[month - 1] }
-                                </h2>
+                                </h3>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-green"
                                     style = { { width: `${(monthIncomes / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value bar-chart__bar-value--is-green">
+                                    <h4 className = "bar-chart__bar-value bar-chart__bar-value--is-green">
                                         { formatNumber(monthIncomes, FORMAT_TYPE.SEPARATE_THOUSANDS) }&nbsp;Kč
-                                    </h3>
+                                    </h4>
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-red"
                                     style = { { width: `${(monthExpenses / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value bar-chart__bar-value--is-red">
+                                    <h4 className = "bar-chart__bar-value bar-chart__bar-value--is-red">
                                         { formatNumber(monthExpenses, FORMAT_TYPE.SEPARATE_THOUSANDS) }&nbsp;Kč
-                                    </h3>
+                                    </h4>
                                 </div>
                                 <div
                                     className = "bar-chart__bar bar-chart__bar--is-purple"
                                     style = { { width: `${(monthBalance / maxValue) * 100}%` } }>
-                                    <h3 className = "bar-chart__bar-value bar-chart__bar-value--is-purple">
+                                    <h4 className = "bar-chart__bar-value bar-chart__bar-value--is-purple">
                                         { formatNumber(monthBalance, FORMAT_TYPE.SEPARATE_THOUSANDS) }&nbsp;Kč
-                                    </h3>
+                                    </h4>
                                 </div>
                             </div>
                         </div>

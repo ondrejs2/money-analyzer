@@ -15,7 +15,7 @@
         }
 
         &main-label {
-            font-size: 30px;
+            font-size: 24px;
             color: $blue;
         }
 
@@ -45,13 +45,13 @@
 
         &negative-side {
             flex: 0 0 50%;
-            padding: 12px 0;
+            padding: 8px 0;
         }
 
         &positive-side {
             flex: 0 0 50%;
             border-left: ($timeline-width + 1) solid $light-gray;
-            padding: 12px 0;
+            padding: 8px 0;
         }
 
         &label {
@@ -89,8 +89,8 @@
         }
 
         &bar {
-            padding: 12px;
-            margin: 8px 0;
+            padding: 8px;
+            margin: 4px 0;
             border-radius: 0 5px 5px 0;
 
             &-- {
@@ -104,6 +104,7 @@
                 }
 
                 &is-purple {
+                    padding: 12px;
                     background-color: $purple;
                 }
             }

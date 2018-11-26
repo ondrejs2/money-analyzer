@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import isNumeric from './utils/isNumeric';
+import Card from './components/Card/Card';
 import IncomesAndExpenses from './components/IncomesAndExpenses/IncomesAndExpenses';
 
 const CSV_ENCODING = 'utf-8';
@@ -70,34 +71,38 @@ class App extends Component {
 
     render() {
         return (
-            <AppContext.Provider value = { this.state.$MONA }>
-                <div
-                    id = "drop-area"
-                    ref = { this._dropArea }
-                >
-                    <form className = "my-form">
-                        <p>
-                            Upload .csv file with the file dialog or by dragging and dropping .csv file onto the dashed region
-                        </p>
-                        <input
-                            accept = "*"
-                            id = "fileElem"
-                            onChange = { (event) => this.handleFiles(event.target.files) }
-                            type = "file"
-                        />
-                        <label
-                            className = "button"
-                            htmlFor = "fileElem"
-                        >
-                            Select .csv file
-                        </label>
-                    </form>
-                </div>
-                { this.state.transactions && this.state.transactions.length ?
-                    <IncomesAndExpenses transactions = { this.state.transactions }/> :
-                    null
-                }
-            </AppContext.Provider>
+            <div className = "app">
+                <AppContext.Provider value = { this.state.$MONA }>
+                    <div
+                        id = "drop-area"
+                        ref = { this._dropArea }
+                    >
+                        <form className = "my-form">
+                            <p>
+                                Upload .csv file with the file dialog or by dragging and dropping .csv file onto the dashed region
+                            </p>
+                            <input
+                                accept = "*"
+                                id = "fileElem"
+                                onChange = { (event) => this.handleFiles(event.target.files) }
+                                type = "file"
+                            />
+                            <label
+                                className = "button"
+                                htmlFor = "fileElem"
+                            >
+                                Select .csv file
+                            </label>
+                        </form>
+                    </div>
+                    { this.state.transactions && this.state.transactions.length ?
+                        <Card title= "Příjmy a výdaje">
+                            <IncomesAndExpenses transactions = { this.state.transactions }/>
+                        </Card> :
+                        null
+                    }
+                </AppContext.Provider>
+            </div>
         );
     }
 

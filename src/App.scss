@@ -1,8 +1,15 @@
+@import "./styles/colors";
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     color: #2b3643;
+}
+
+.app {
+    background-color: $light-gray-01;
+    padding: 32px;
 }
 
 #drop-area {
