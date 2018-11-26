@@ -1,0 +1,28 @@
+@import "../../styles/colors";
+
+.card {
+    $card--horizontal-padding: 24px;
+    $card--vertical-padding: 16px;
+
+    max-width: 920px;
+    margin: 0 auto;
+    background-color: $white;
+    border: 1px solid $light-gray;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+
+    &__ {
+
+        &title {
+            padding: $card--vertical-padding $card--horizontal-padding;
+            border-bottom: 1px solid $light-gray;
+            font-size: 24px;
+            font-weight: normal;
+            color: $blue;
+        }
+
+        &content {
+            padding: $card--vertical-padding $card--horizontal-padding;
+        }
+    }
+}
